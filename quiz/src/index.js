@@ -21,7 +21,7 @@ function updateContent(str) {
 
 start.addEventListener("click", () => {
     let status = "Clicked D"
-
+    
     updateContent(status)
     console.log(status)
 
@@ -94,6 +94,8 @@ start.addEventListener("click", () => {
 next.addEventListener("click", () => {
     let status = "Clicked F"
     let id = userId.value
+    choice=false;
+    let x = document.getElementById("box").vale;
 
     updateContent(status + id)
     console.log(status + id)
@@ -103,8 +105,34 @@ next.addEventListener("click", () => {
         console.log(response)
 
         response.json().then((data) => {
-            updateContent(JSON.stringify(data, null, 4))
+          updateContent(data.question)
             console.log(data)
+           console.log(JSON.stringify(data, null, 4))
+
+           if(data.hasOwnProperty('alternatives') ){
+             x = document.getElementById("box").style.display = "block";
+            if(data.hasOwnProperty('alternatives')){
+                document.getElementById("lbl-alt1").innerHTML=data.alternatives.alt1;
+                document.getElementById("lbl-alt2").innerHTML=data.alternatives.alt2;
+                if(data.alternatives!=null){
+                    document.getElementById("lbl-alt3").innerHTML=data.alternatives.alt3;
+                }
+                if (data.alternatives!=null){
+                    document.getElementById("lbl-alt4").innerHTML=data.alternatives.alt4;
+                    
+                }
+                else{
+                    document.getElementById("lbl-alt4").disable=true;
+                }
+                choice=true;
+            }
+            
+        
+          }
+          else{
+            x = document.getElementById("box").style.display = "none";
+          }
+
 
             nextUrl = data.nextURL
         });
@@ -112,5 +140,7 @@ next.addEventListener("click", () => {
     .catch((err) => {
         console.log('Fetch Error :-S', err)
     });
-})
+   
+  })
+
 
