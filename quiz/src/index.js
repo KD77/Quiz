@@ -7,6 +7,7 @@ const next = document.getElementById("next")
 const userId = document.getElementById("userId")
 
 let nextUrl = null;
+let choice = false;
 
 
 /**
@@ -29,8 +30,10 @@ start.addEventListener("click", () => {
         console.log(response)
 
         response.json().then((data) => {
-            updateContent(JSON.stringify(data, null, 4))
-            console.log(data)
+            updateContent(data.question);
+           // updateContent(JSON.stringify(data, null, 4))
+            //console.log(data)
+            console.log(JSON.stringify(data, null, 4))
 
             nextUrl = data.nextURL
         });
@@ -47,10 +50,20 @@ start.addEventListener("click", () => {
  */
  enter.addEventListener("click", () => {
     let status = "Clicked E"
-    let id = userId.value
-    let body = {
+    let id ;
+    let body;
+
+    if(!choice){
+        id=userId.value;
+    }
+    else if (choice){
+        id=document.querySelector(".checkbox:checked").value;
+    }
+
+    body = {
         answer: id
     }
+    
 
     updateContent(status + id)
     console.log(status + id)
@@ -60,8 +73,10 @@ start.addEventListener("click", () => {
         console.log(response)
 
         response.json().then((data) => {
-            updateContent(JSON.stringify(data, null, 4))
-            console.log(data)
+            //updateContent(JSON.stringify(data, null, 4))
+            //console.log(data)
+            updateContent(data.message)
+            console.log(JSON.stringify(data, null, 4))
 
             nextUrl = data.nextURL
         });
