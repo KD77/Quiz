@@ -11,10 +11,23 @@
 </head>
 
 <body>
+    <nav>
+        <ul>
+          <li>
+            <a href="../../web/index.html">Hangman</a>
+          </li>
+          <li>
+            <a href="./index.html">quiz</a>
+          </li>
+        
+        </ul>
+      </nav>
+
 
   <div class="container">
-    <div>
-      <h1>Questions</h1>
+    <div >
+      <h1 id="intro">Questions</h1>
+      <h2 id="countDown"></h2>
     </div>
     <br>
     <div id="content"></div>
@@ -29,10 +42,13 @@
       <label for="check" id="lbl-alt4"></label>
     </div>
     <br>
-    <div> <input type="text" value="1" id="userId"></div>
-       <a href="#" id="start" </a>Start </a>
+    <div id="input"> <input type="text" value="1" id="userId"></div>
+    <div id="control">
+      <a href="#" id="start" </a>Start </a>
        <a href="#" id="enter" </a>Enter </a> 
        <a href="#" id="next" </a>Next </a>
+    </div>
+       
     </div> 
 
       <noscript>You need to enable JavaScript to run this app.</noscript>

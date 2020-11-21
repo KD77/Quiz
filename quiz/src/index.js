@@ -21,7 +21,7 @@ function updateContent(str) {
 
 start.addEventListener("click", () => {
     let status = "Clicked D"
-    
+    countDownTimer();
     updateContent(status)
     console.log(status)
 
@@ -42,6 +42,37 @@ start.addEventListener("click", () => {
         console.log('Fetch Error :-S', err)
     });
 })
+function countDownTimer(){
+    let timeleft=10;
+    let x=document.getElementById("box").value;
+    let timer = setInterval(function(){
+
+        if(timeleft<=0){
+            clearInterval(timer);
+
+            document.getElementById("box").style.display = "none";
+            document.getElementById("enter").style.display = "none";
+            document.getElementById("next").style.display = "none";
+            document.getElementById("intro").style.display = "none";
+            document.getElementById("content").style.display = "none";
+            document.getElementById("userId").style.display = "none";
+          if(x==='none'){
+            document.getElementById("box").style.display = "block";
+            document.getElementById("enter").style.display = "block";
+            document.getElementById("next").style.display = "block";
+            document.getElementById("intro").style.display = "block";
+            document.getElementById("content").style.display = "block";
+            document.getElementById("userId").style.display = "block";
+          }
+            document.getElementById("countDown").innerHTML="END";
+
+
+        }else{
+            document.getElementById("countDown").innerHTML=timeleft + " seconds";  
+        }
+        timeleft = timeleft-1;
+    },1000);
+}
 
 
 
