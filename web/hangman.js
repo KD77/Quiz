@@ -1,8 +1,12 @@
 /**
  * Showing off how to display/hide parts of a SVG-image.
  */
+
+
+
 window.Hangman = (function () {
   "use strict";
+
 
   var hangman = {
 
@@ -80,6 +84,7 @@ window.Hangman = (function () {
       }
   };
 
+  
   window.console.log("You can now use the hangman object as a part of the window-object." +
   "Try\n\nwindow.Hangman.hide('gallow')\nwindow.Hangman.show('gallow')" +
   "\n\nHere are all the parts you can work on.");
@@ -88,3 +93,15 @@ window.Hangman = (function () {
   // Return the object to make it visible.
   return hangman;
 })();
+window.Hangman.hide('hill');
+window.Hangman.hide('gallow');
+window.Hangman.hide('body');
+window.Hangman.hide('rightarm');
+window.Hangman.hide('leftarm');
+window.Hangman.hide('rightleg');
+window.Hangman.hide('leftleg');
+window.Hangman.hide('rope');
+window.Hangman.hide('head');
+
+
+

@@ -25,7 +25,16 @@
 
 
   <div class="container">
+    <div>
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name">
+      <button id="btn">Continue</button>
+      <h1>Welcome</h1>
+      <h1 id="displayName"></h1>
+     
+    </div>
     <div >
+
       <h1 id="intro">Questions</h1>
       <h2 id="countDown"></h2>
     </div>
@@ -48,11 +57,15 @@
        <a href="#" id="enter" </a>Enter </a> 
        <a href="#" id="next" </a>Next </a>
     </div>
+    <div>
+      <h2 id="results"></h2>
+    </div>
        
     </div> 
 
       <noscript>You need to enable JavaScript to run this app.</noscript>
       <script type="module" src="/_dist_/index.js"></script>
+      <script type="module" src="../src/modules/quizz.js"></script>
 </body>
 
 </html>
