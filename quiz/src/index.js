@@ -5,9 +5,8 @@ const start = document.getElementById('start');
 const enter = document.getElementById('enter');
 const next = document.getElementById('next');
 const userId = document.getElementById('userId');
-let name = document.getElementById('name').value;
+let name = document.getElementById('nickname');
 let btn = document.getElementById('btn');
-
 
 let nextUrl = null;
 let choice = false;
@@ -21,50 +20,12 @@ function updateContent(str) {
   content.innerHTML = str;
 }
 
-start.addEventListener('click', () => {
-  let status = 'Clicked D';
-
-  countDownTimer(timeleft);
-  updateContent(status);
-  console.log(status);
-
-  Quizz.getFirstQuestion()
-    .then((response) => {
-      console.log(response);
-
-      response.json().then((data) => {
-        updateContent(data.question);
-        // updateContent(JSON.stringify(data, null, 4))
-        //console.log(data)
-        console.log(JSON.stringify(data, null, 4));
-
-        nextUrl = data.nextURL;
-      });
-    })
-    .catch((err) => {
-      console.log('Fetch Error :-S', err);
-    });
-});
 function countDownTimer(timeleft) {
   let x = document.getElementById('box').value;
   let timer = setInterval(function () {
     if (timeleft <= 0) {
       clearInterval(timer);
 
-      /* document.getElementById("box").style.display = "none";
-            document.getElementById("enter").style.display = "none";
-            document.getElementById("next").style.display = "none";
-            document.getElementById("intro").style.display = "none";
-            document.getElementById("content").style.display = "none";
-            document.getElementById("userId").style.display = "none";
-          if(x==='none'){
-            document.getElementById("box").style.display = "block";
-            document.getElementById("enter").style.display = "block";
-            document.getElementById("next").style.display = "block";
-            document.getElementById("intro").style.display = "block";
-            document.getElementById("content").style.display = "block";
-            document.getElementById("userId").style.display = "block";
-          }*/
       document.getElementById('countDown').innerHTML = 'END';
     } else {
       document.getElementById('countDown').innerHTML = timeleft + ' seconds';
@@ -88,20 +49,15 @@ enter.addEventListener('click', () => {
     id = document.querySelector('.checkbox:checked').value;
   }
   if (count === 7) {
-    let name = document.getElementById('name').value;
-      let person = new Person(name);
-  document.getElementById('results').innerHTML=`${person.getName()}:${count}`;
-    console.log("you win " + name+ " score of : "+ count)
-    // Simple string substitution
-//var name = "Brendan";
-//console.log(`Yo, ${name}!`);
+   name = document.getElementById('nickname').value;
+   // let person = new Person(name);
+   console.log(name)
+    document.getElementById(
+      'results',
+    ).innerHTML = `${name}:${count}`;
+    console.log('you win ' + name + ' score of : ' + count);
 
-// => "Yo, Brendan!"
     nextUrl = 'http://1dv525.mikaelroos.se:3000/answer/326';
-    
-
-    
-    
   }
   body = {
     answer: id,
@@ -113,20 +69,15 @@ enter.addEventListener('click', () => {
   Quizz.sendQuestionResponsePost(nextUrl, body)
     .then((response) => {
       console.log(response);
-    
+
       response.json().then((data) => {
-       // updateContent(data.message)
-        console.log("hello",data)
-        console.log(JSON.stringify(data, null, 4))
-       updateContent(data.message)
+        // updateContent(data.message)
+        console.log('hello', data);
+        console.log(JSON.stringify(data, null, 4));
+        updateContent(data.message);
 
-        nextUrl = data.nextURL
-        
-    });
-
-
-      
-     
+        nextUrl = data.nextURL;
+      });
     })
     .catch((err) => {
       console.log('Fetch Error :-S', err);
@@ -139,7 +90,7 @@ enter.addEventListener('click', () => {
 next.addEventListener('click', () => {
   let status = 'Clicked F';
   let id = userId.value;
-  choice = false;
+
   let x = document.getElementById('box').vale;
 
   updateContent(status + id);
@@ -154,28 +105,7 @@ next.addEventListener('click', () => {
         console.log(data);
         console.log(JSON.stringify(data, null, 4));
 
-        if (data.hasOwnProperty('alternatives')) {
-          x = document.getElementById('box').style.display = 'block';
-          if (data.hasOwnProperty('alternatives')) {
-            document.getElementById('lbl-alt1').innerHTML =
-              data.alternatives.alt1;
-            document.getElementById('lbl-alt2').innerHTML =
-              data.alternatives.alt2;
-            if (data.alternatives != null) {
-              document.getElementById('lbl-alt3').innerHTML =
-                data.alternatives.alt3;
-            }
-            if (data.alternatives != null) {
-              document.getElementById('lbl-alt4').innerHTML =
-                data.alternatives.alt4;
-            } else {
-              document.getElementById('lbl-alt4').disable = true;
-            }
-            choice = true;
-          }
-        } else {
-          x = document.getElementById('box').style.display = 'none';
-        }
+        checkInputAndCheckbox(data);
 
         nextUrl = data.nextURL;
       });
@@ -184,9 +114,73 @@ next.addEventListener('click', () => {
       console.log('Fetch Error :-S', err);
     });
 });
+
+function hideElements() {
+  let children = document.getElementById('input-and-checkbox').children;
+  for (let i = 0; i < children.length; i++) {
+    children[i].style.display = 'none';
+    children[i].checked = false; // Un-checks all radiobuttons and the inputfield(children)
+  }
+}
 btn.onclick = function () {
-  let name = document.getElementById('name').value;
-  let person = new Person(name);
-  console.log(person.getName());
-  document.getElementById('displayName').innerHTML = person.getName();
+  name = document.getElementById('nickname').value;
+  //let person = new Person(name);
+ console.log(name);
+  document.getElementById('displayName').innerHTML = name;
+  //
+  document.getElementById('box').style.display = 'block';
+  document.getElementById('name').style.display = 'none';
+  document.getElementById('input-and-checkbox').style.display = 'none';
+  document.getElementById('btn-enter-next').style.display = 'none';
+  updateContent("Press start to began the quizz")
+  start.addEventListener('click', () => {
+    document.getElementById('input-and-checkbox').style.display = 'block';
+    document.getElementById('btn-enter-next').style.display = 'inline';
+    let status = 'Clicked D';
+   
+    //countDownTimer(timeleft);
+    updateContent(status);
+    console.log(status);
+
+    Quizz.getFirstQuestion()
+      .then((response) => {
+        console.log(response);
+
+        response.json().then((data) => {
+          updateContent(data.question);
+          // updateContent(JSON.stringify(data, null, 4))
+          //console.log(data)
+          checkInputAndCheckbox(data);
+          console.log(JSON.stringify(data, null, 4));
+
+          nextUrl = data.nextURL;
+        });
+      })
+      .catch((err) => {
+        console.log('Fetch Error :-S', err);
+      });
+  });
 };
+function checkInputAndCheckbox(data) {
+  choice = false;
+  if (data.hasOwnProperty('alternatives')) {
+    document.getElementById('checkbox').style.display = 'block';
+    document.getElementById('input').style.display = 'none';
+    if (data.hasOwnProperty('alternatives')) {
+      document.getElementById('lbl-alt1').innerHTML = data.alternatives.alt1;
+      document.getElementById('lbl-alt2').innerHTML = data.alternatives.alt2;
+      if (data.alternatives != null) {
+        document.getElementById('lbl-alt3').innerHTML = data.alternatives.alt3;
+      }
+      if (data.alternatives != null) {
+        document.getElementById('lbl-alt4').innerHTML = data.alternatives.alt4;
+      } else {
+        document.getElementById('lbl-alt4').disable = true;
+      }
+      choice = true;
+    }
+  } else {
+    document.getElementById('input').style.display = 'block';
+    document.getElementById('checkbox').style.display = 'none';
+  }
+}

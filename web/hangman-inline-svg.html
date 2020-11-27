@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="./style.css">
   <title>Base for Hangman, using SVG and JavaScript</title>
+
 </head>
 <body>
 
-<p>Review the <a href="hangman.js">sourcecode of the JavaScript-file</a>, then open up the console in the developer tool to do the magic to hide/show individual parts of the SVG-image.</p>
+
 
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
-
+<div class="container">
 <svg
    xmlns="http://www.w3.org/2000/svg"
    width="400"
@@ -491,6 +493,33 @@
        width="11.75" />
   </g>
 </svg>
+<div class="wrong-word" id="wrong-word">
+   <div id="wrong-letters">
+      <p>wrong</p>
+      <span>a,x,z</span>
+   </div>
+</div>
+<div class="word" id="word">
+ <div class="letter">h</div>
+ <div class="letter">e</div>
+ <div class="letter">l</div>
+ <div class="letter">l</div>
+ <div class="letter">o</div>
+</div>
+</div>
+<div class="popup-container" id="popup-container" >
+   <div class="popup">
+      <h2 id="message"></h2>
+      <h2 id="final-message"></h2>
+        <h3 id="final-message-reveal-word"></h3>
+      <button id="play-button">Play Again</button>
+   </div>
+</div class="notification" id="notification">
+<p>You have already entered this letter</p>
+<div>
+
+</div>
+
 
 <script src="./hangman.js"></script>
 </body>
