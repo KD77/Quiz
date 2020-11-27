@@ -14,7 +14,7 @@ const popup = document.getElementById('popup-container');
 let nextUrl = null;
 let choice = false;
 let count = 0;
-let timeleft = 10;
+let timer;
 
 /**
  * Update the webpage with some content.
@@ -23,10 +23,13 @@ function updateContent(str) {
   content.innerHTML = str;
 }
 
-function countDownTimer(timeleft) {
+function countDownTimer() {
+  let timeleft = 10
   let x = document.getElementById('box').value;
-  let timer = setInterval(function () {
-    if (timeleft <= 0) {
+
+   timer = setInterval(function () {
+     timeleft--;
+    if (timeleft === -1) {
      gameOver(); 
      clearInterval(timer);
       
@@ -34,7 +37,7 @@ function countDownTimer(timeleft) {
     } else {
       document.getElementById('countDown').innerHTML = timeleft + ' seconds';
     }
-    timeleft = timeleft - 1;
+    
   }, 1000);
 }
 
@@ -46,7 +49,7 @@ enter.addEventListener('click', () => {
   let id;
   let body;
   count++;
-  timeleft = 10;
+
   if (!choice) {
     id = userId.value;
   } else if (choice) {
@@ -55,14 +58,16 @@ enter.addEventListener('click', () => {
   if (count === 7) {
    name = document.getElementById('nickname').value;
    // let person = new Person(name);
- 
-   gameOver();
+    
+  
     document.getElementById(
       'results',
     ).innerHTML = `${name}:${count}`;
     console.log('you win ' + name + ' score of : ' + count);
 
     nextUrl = 'http://1dv525.mikaelroos.se:3000/answer/326';
+     console.log('won')
+  
   }
   body = {
     answer: id,
@@ -74,10 +79,10 @@ enter.addEventListener('click', () => {
   Quizz.sendQuestionResponsePost(nextUrl, body)
     .then((response) => {
       console.log(response);
-
+  
       response.json().then((data) => {
         // updateContent(data.message)
-        console.log('hello', data);
+        console.log(data);
         console.log(JSON.stringify(data, null, 4));
         updateContent(data.message);
 
@@ -87,6 +92,7 @@ enter.addEventListener('click', () => {
     .catch((err) => {
       console.log('Fetch Error :-S', err);
     });
+    clearInterval(timer)
 });
 
 /**
@@ -100,6 +106,8 @@ next.addEventListener('click', () => {
 
   updateContent(status + id);
   console.log(status + id);
+  clearInterval(timer)
+  //countDownTimer(timeleft)
 
   Quizz.getQuestion(nextUrl)
     .then((response) => {
@@ -118,6 +126,7 @@ next.addEventListener('click', () => {
     .catch((err) => {
       console.log('Fetch Error :-S', err);
     });
+   countDownTimer()
 });
 
 
@@ -165,13 +174,7 @@ function checkInputAndCheckbox(data) {
   }
 }
 function gameOver(){
-  if (count===7 ) {
-
-		updateContent('Congratulations! You won! 😃')
-	
-
-
-	}else{
+ 
     updateContent('Unfortunately you lost. 😕')
     
     document.getElementById('box').style.display = 'none';
@@ -183,7 +186,10 @@ function gameOver(){
     //popup.style.display = 'flex';
     
 
-  }
+  
+}
+function won (){
+  updateContent('Congratulations! You won! 😃')
 }
 // Restart game and play again
 playBtn.onclick=function(){
@@ -205,8 +211,9 @@ function start(){
     //countDownTimer(timeleft);
     updateContent(status);
     console.log(status);
-
+    countDownTimer();
     Quizz.getFirstQuestion()
+
       .then((response) => {
         console.log(response);
         
@@ -223,5 +230,6 @@ function start(){
       .catch((err) => {
         console.log('Fetch Error :-S', err);
       });
+   
   });
 }

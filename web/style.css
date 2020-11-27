@@ -104,4 +104,8 @@ h1 {
 .popup button:focus {
   outline: 0;
 }
+.report-container{
+  max-width: 950px;
+  height: 2200px;
+}
 

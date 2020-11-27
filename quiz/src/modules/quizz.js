@@ -1,6 +1,7 @@
 /**
  * Sample module to use for Quizz using async await
  */
+
 async function getFirstQuestion() {
   const url = 'http://courselab.lnu.se/question/1';
   const response = await fetch(url);
@@ -72,6 +73,7 @@ async function getQuestion(url) {
     console.log(JSON.stringify(data, null, 4));
 
     throw new Error(`HTTP error! status: ${response.status}`);
+
   }
 
   console.log(response);
