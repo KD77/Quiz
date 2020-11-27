@@ -1,5 +1,5 @@
 import Quizz from './modules/quizz';
-import Person from './person';
+
 
 const startBtn = document.getElementById('start');
 const enter = document.getElementById('enter');
@@ -62,11 +62,11 @@ enter.addEventListener('click', () => {
   
     document.getElementById(
       'results',
-    ).innerHTML = `${name}:${count}`;
-    console.log('you win ' + name + ' score of : ' + count);
-
+    ).innerHTML = `${name}:${count}`+ ' points';
+   
+won();
     nextUrl = 'http://1dv525.mikaelroos.se:3000/answer/326';
-     console.log('won')
+    
   
   }
   body = {
@@ -177,11 +177,7 @@ function gameOver(){
  
     updateContent('Unfortunately you lost. 😕')
     
-    document.getElementById('box').style.display = 'none';
-    document.getElementById('name').style.display = 'none';
-    document.getElementById('input-and-checkbox').style.display = 'none';
-    document.getElementById('btn-enter-next').style.display = 'none';
-    document.getElementById('box').style.display = 'block';
+hideInputAndCheckbox();
     
     //popup.style.display = 'flex';
     
@@ -189,7 +185,9 @@ function gameOver(){
   
 }
 function won (){
-  updateContent('Congratulations! You won! 😃')
+  
+  document.getElementById('countDown').innerHTML='Congratulations! You won! 😃';
+  hideInputAndCheckbox();
 }
 // Restart game and play again
 playBtn.onclick=function(){
@@ -232,4 +230,12 @@ function start(){
       });
    
   });
+  
 }
+function hideInputAndCheckbox(){
+    document.getElementById('box').style.display = 'none';
+    document.getElementById('name').style.display = 'none';
+    document.getElementById('input-and-checkbox').style.display = 'none';
+    document.getElementById('btn-enter-next').style.display = 'none';
+    document.getElementById('box').style.display = 'block';
+  }
