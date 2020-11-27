@@ -28,18 +28,21 @@ h1 {
 .wrong-word {
   position: absolute;
   top: 20px;
-  right: 20px;
+  right: 40px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   text-align: right;
+  
 }
 
-.wrong-word p {
-  margin: 0 0 5px;
+.wrong-letters p {
+  margin: 0 0 6px;
+  
 }
 
-.wrong-word span {
-  font-size: 24px;
+.wrong-letters span {
+  margin-top: 20px;
+  font-size: 20px;
 }
 .word {
   display: flex;
@@ -101,3 +104,4 @@ h1 {
 .popup button:focus {
   outline: 0;
 }
+

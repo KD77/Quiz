@@ -1,12 +1,15 @@
 import Quizz from './modules/quizz';
 import Person from './person';
 
-const start = document.getElementById('start');
+const startBtn = document.getElementById('start');
 const enter = document.getElementById('enter');
 const next = document.getElementById('next');
 const userId = document.getElementById('userId');
 let name = document.getElementById('nickname');
 let btn = document.getElementById('btn');
+const playBtn = document.getElementById('play-button');
+const finalMessage = document.getElementById('final-message');
+const popup = document.getElementById('popup-container');
 
 let nextUrl = null;
 let choice = false;
@@ -24,9 +27,10 @@ function countDownTimer(timeleft) {
   let x = document.getElementById('box').value;
   let timer = setInterval(function () {
     if (timeleft <= 0) {
-      clearInterval(timer);
-
-      document.getElementById('countDown').innerHTML = 'END';
+     gameOver(); 
+     clearInterval(timer);
+      
+      
     } else {
       document.getElementById('countDown').innerHTML = timeleft + ' seconds';
     }
@@ -51,7 +55,8 @@ enter.addEventListener('click', () => {
   if (count === 7) {
    name = document.getElementById('nickname').value;
    // let person = new Person(name);
-   console.log(name)
+ 
+   gameOver();
     document.getElementById(
       'results',
     ).innerHTML = `${name}:${count}`;
@@ -99,12 +104,12 @@ next.addEventListener('click', () => {
   Quizz.getQuestion(nextUrl)
     .then((response) => {
       console.log(response);
-
+      
       response.json().then((data) => {
         updateContent(data.question);
         console.log(data);
         console.log(JSON.stringify(data, null, 4));
-
+//countDownTimer(timeleft);
         checkInputAndCheckbox(data);
 
         nextUrl = data.nextURL;
@@ -115,13 +120,7 @@ next.addEventListener('click', () => {
     });
 });
 
-function hideElements() {
-  let children = document.getElementById('input-and-checkbox').children;
-  for (let i = 0; i < children.length; i++) {
-    children[i].style.display = 'none';
-    children[i].checked = false; // Un-checks all radiobuttons and the inputfield(children)
-  }
-}
+
 btn.onclick = function () {
   name = document.getElementById('nickname').value;
   //let person = new Person(name);
@@ -133,7 +132,72 @@ btn.onclick = function () {
   document.getElementById('input-and-checkbox').style.display = 'none';
   document.getElementById('btn-enter-next').style.display = 'none';
   updateContent("Press start to began the quizz")
-  start.addEventListener('click', () => {
+  start();
+
+};
+function checkInputAndCheckbox(data) {
+  choice = false;
+  if (data.hasOwnProperty('alternatives')) {
+    document.getElementById('checkbox').style.display = 'block';
+    document.getElementById('input').style.display = 'none';
+    if (data.hasOwnProperty('alternatives')) {
+      document.getElementById('lbl-alt1').innerHTML = data.alternatives.alt1;
+      document.getElementById('lbl-alt2').innerHTML = data.alternatives.alt2;
+      if (data.alternatives != null) {
+        document.getElementById('lbl-alt3').innerHTML = data.alternatives.alt3;
+      }
+      if (data.alternatives !== null) {
+        document.getElementById('lbl-alt4').innerHTML = data.alternatives.alt4;
+      } 
+      if (data.alternatives === null || data.alternatives==='undefined'){
+        let x = document.getElementById('lbl-alt4').innerHTML = data.alternatives.alt4;
+        x.disable= true;
+      }
+      else {
+        document.getElementById('lbl-alt4').disable = true;
+       
+      }
+      choice = true;
+    }
+  } else {
+    document.getElementById('input').style.display = 'block';
+    document.getElementById('checkbox').style.display = 'none';
+  }
+}
+function gameOver(){
+  if (count===7 ) {
+
+		updateContent('Congratulations! You won! 😃')
+	
+
+
+	}else{
+    updateContent('Unfortunately you lost. 😕')
+    
+    document.getElementById('box').style.display = 'none';
+    document.getElementById('name').style.display = 'none';
+    document.getElementById('input-and-checkbox').style.display = 'none';
+    document.getElementById('btn-enter-next').style.display = 'none';
+    document.getElementById('box').style.display = 'block';
+    
+    //popup.style.display = 'flex';
+    
+
+  }
+}
+// Restart game and play again
+playBtn.onclick=function(){
+  start();
+  document.getElementById('content').style.display = 'block';
+  document.getElementById('input-and-checkbox').style.display = 'block';
+  document.getElementById('btn-enter-next').style.display = 'inline';
+
+  popup.style.display = 'none';
+   
+} 
+function start(){
+  
+  startBtn.addEventListener('click', () => {
     document.getElementById('input-and-checkbox').style.display = 'block';
     document.getElementById('btn-enter-next').style.display = 'inline';
     let status = 'Clicked D';
@@ -145,7 +209,7 @@ btn.onclick = function () {
     Quizz.getFirstQuestion()
       .then((response) => {
         console.log(response);
-
+        
         response.json().then((data) => {
           updateContent(data.question);
           // updateContent(JSON.stringify(data, null, 4))
@@ -160,27 +224,4 @@ btn.onclick = function () {
         console.log('Fetch Error :-S', err);
       });
   });
-};
-function checkInputAndCheckbox(data) {
-  choice = false;
-  if (data.hasOwnProperty('alternatives')) {
-    document.getElementById('checkbox').style.display = 'block';
-    document.getElementById('input').style.display = 'none';
-    if (data.hasOwnProperty('alternatives')) {
-      document.getElementById('lbl-alt1').innerHTML = data.alternatives.alt1;
-      document.getElementById('lbl-alt2').innerHTML = data.alternatives.alt2;
-      if (data.alternatives != null) {
-        document.getElementById('lbl-alt3').innerHTML = data.alternatives.alt3;
-      }
-      if (data.alternatives != null) {
-        document.getElementById('lbl-alt4').innerHTML = data.alternatives.alt4;
-      } else {
-        document.getElementById('lbl-alt4').disable = true;
-      }
-      choice = true;
-    }
-  } else {
-    document.getElementById('input').style.display = 'block';
-    document.getElementById('checkbox').style.display = 'none';
-  }
 }
